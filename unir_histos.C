@@ -15,6 +15,8 @@ float norm;
   TFile* f1 = new TFile("histogramasM60L0001.root","Read");
   TFile* f2 = new TFile("unidosM60L0001.root","Recreate");
 
+  gStyle->SetLegendBorderSize(0);	
+  
   TH1F* h1 = (TH1F*) f1->Get("jet_pt_0");
   h1->SetName("h1");
 
@@ -26,53 +28,61 @@ float norm;
   h4->SetName("h4");
 
   TCanvas *c1 = new TCanvas("c1","",600,400);
-  c1->cd();
+
+  c1->SetBottomMargin(0.2);
+  c1->SetLeftMargin(0.2);
+  
   norm=h1->GetMaximum();
-  h1->SetMarkerColor(1);
-  h1->SetMarkerStyle(2);
-  h1->SetTitle("First and second jet P_{T}");
+  h1->SetMarkerColor(kBlack);
+  h1->SetMarkerStyle(21);
+  h1->SetLineColor(kBlack);
+  h1->SetLineWidth(2);
+  h1->SetTitleSize(0.055,"XY");
+  h1->SetLabelSize(0.055,"XY");
+  h1->SetTitle("Primer y segundo jet p_{T}");
   h1->Scale(1.0/norm);
+  h1->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h1->GetXaxis()->SetTitle("jet p_{T}, GeV/c");
+  h1->SetAxisRange(0,350,"X");
   //h1->SetStats();
   h1->Draw();
-  c1->Update();
-  h2->SetMarkerColor(2);
-  h2->SetMarkerStyle(2);
-  h2->SetLineColor(kRed);
+ 
+  h2->SetMarkerColor(kRed+1);
+  h2->SetMarkerStyle(21);
+  h2->SetLineColor(kRed+1);
   norm=h2->GetMaximum();
   h2->Scale(1.0/norm);
 //h2->SetStats();
   h2->Draw("same");
-  c1->Update();
+ 
   norm=h3->GetMaximum();
-  h3->SetLineColor(kBlue);
-  h3->SetMarkerColor(3);
-  h3->SetMarkerStyle(2);
-  h3->SetLineColor(3);
+  h3->SetLineColor(kBlue+1);
+  h3->SetMarkerColor(kBlue+1);
+  h3->SetMarkerStyle(21);
   h3->Scale(1.0/norm);
 //h3->SetStats();
   h3->Draw("same");
-  c1->Update();  
-  h4->SetLineColor(kGreen);
-  h4->SetMarkerColor(4);
-  h4->SetMarkerStyle(2);
-  h4->SetLineColor(4);
+ 
+  h4->SetLineColor(kGreen+2);
+  h4->SetMarkerColor(kGreen+2);
+  h4->SetMarkerStyle(21);
   norm=h4->GetMaximum();
   h4->Scale(1.0/norm);
 //h4->SetStats();
   h4->Draw("same");
   c1->Update();
-   leg1 = new TLegend(0.55,0.7,0.9,0.9);
+   leg1 = new TLegend(0.55,0.6,0.89,0.89);
    //leg->SetHeader("","C"); // option "C" allows to center the header
-   leg1->AddEntry(h1,"Leading jet signal","f");
-   leg1->AddEntry(h2,"Second jet signal","f");
-   leg1->AddEntry(h3,"Leading jet background","f");
-   leg1->AddEntry(h4,"Second jet background","f");
+   leg1->AddEntry(h1,"Primer jet Se#tilde{n}al","l");
+   leg1->AddEntry(h2,"Segundo jet Se#tilde{n}al","l");
+   leg1->AddEntry(h3,"Primer jet background","l");
+   leg1->AddEntry(h4,"Segundo jet background","l");
    leg1->Draw();
 
 
   c1->SetName("c1");
   f2->cd();
-  c1->Write();             //1 y 2 jet de la señal y el background
+  c1->Write();             //1 y 2 jet de la signal y el background
 
 //---------------------------------------------------------
   TH1F* h5 = (TH1F*) f1->Get("MissingET_signal");
@@ -82,26 +92,36 @@ float norm;
   h6->SetName("h6");
 
   TCanvas *c2 = new TCanvas("c2","",600,400);
-  c2->cd();
-  h5->SetTitle("Missing Energy");
-  h5->SetMarkerColor(1);
-  h5->SetMarkerStyle(2);
+
+  c2->SetBottomMargin(0.2);
+  c2->SetLeftMargin(0.2);
+
+  h5->SetTitle("Energ#acute{i}a Perdida");
+  h5->SetMarkerColor(kBlue+1);
+  h5->SetMarkerStyle(21);
   norm=h5->GetMaximum();
   h5->Scale(1.0/norm);
 //h5->SetStats();
+  h5->SetLineColor(kBlue+1);  
+  h5->SetLineWidth(2);
+  h5->SetTitleSize(0.055,"XY");
+  h5->SetLabelSize(0.055,"XY");
+  h5->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h5->SetAxisRange(0,350,"X");  
   h5->Draw();
-  c2->Update();
-  h6->SetMarkerColor(2);
-  h6->SetMarkerStyle(2);
-  h6->SetLineColor(kRed);
+
+  h6->SetMarkerColor(kRed+1);
+  h6->SetMarkerStyle(21);
+  h6->SetLineColor(kRed+1);
   norm=h6->GetMaximum();
   h6->Scale(1.0/norm);
 //h6->SetStats();
+  h6->SetLineWidth(2);
   h6->Draw("same");
-  c2->Update();
+
    leg2 = new TLegend(0.55,0.80,0.9,0.9);
-   leg2->AddEntry(h5,"Signal","f");
-   leg2->AddEntry(h6,"Background","f");
+   leg2->AddEntry(h5,"Se#tilde{n}al","l");
+   leg2->AddEntry(h6,"Background","l");
    leg2->Draw();
 
   f2->cd();
@@ -115,26 +135,35 @@ float norm;
   h8->SetName("h8");
 
   TCanvas *c3 = new TCanvas("c3","",600,400);
-  c3->cd();
+
+  c3->SetBottomMargin(0.2);
+  c3->SetLeftMargin(0.2);
+  
   h7->SetTitle("Transverse momentum");
-  h7->SetMarkerColor(1);
-  h7->SetMarkerStyle(2);
+  h7->SetMarkerColor(kBlue+1);
+  h7->SetMarkerStyle(21);
   norm=h7->GetMaximum();
   h7->Scale(1.0/norm);
+  h7->SetLineColor(kBlue+1);  
+  h7->SetLineWidth(2);
+  h7->SetTitleSize(0.055,"XY");
+  h7->SetLabelSize(0.055,"XY");
+  h7->GetYaxis()->SetTitle("#Eventos / Max. #eventos");  
 //h7->SetStats();
   h7->Draw();
-  c3->Update();
-  h8->SetMarkerColor(2);
-  h8->SetMarkerStyle(2);
-  h8->SetLineColor(kRed);
+ 
+  h8->SetMarkerColor(kRed+1);
+  h8->SetMarkerStyle(21);
+  h8->SetLineColor(kRed+1);
+  h8->SetLineWidth(2);  
   norm=h8->GetMaximum();
   h8->Scale(1.0/norm);
 //h8->SetStats();
   h8->Draw("same");
-  c3->Update();
+ 
    leg3 = new TLegend(0.55,0.80,0.9,0.9);
-   leg3->AddEntry(h7,"Signal","f");
-   leg3->AddEntry(h8,"Background","f");
+   leg3->AddEntry(h7,"Signal","l");
+   leg3->AddEntry(h8,"Background","l");
    leg3->Draw();
   f2->cd();
   c3->Write();      //PT de los todos los jets
@@ -147,26 +176,36 @@ float norm;
   h10->SetName("h10");
 
   TCanvas *c4 = new TCanvas("c4","",600,400);
-  c4->cd();
-  h9->SetTitle("MET Phi");
-  h9->SetMarkerColor(1);
-  h9->SetMarkerStyle(2);
+
+  c4->SetBottomMargin(0.2);
+  c4->SetLeftMargin(0.2);
+  
+  h9->SetTitle("MET #phi");
+  h9->SetMarkerColor(kBlue+1);
+  h9->SetMarkerStyle(21);
   norm=h9->GetMaximum();
   h9->Scale(1.0/norm);
 //h9->SetStats();
+  h9->SetLineColor(kBlue+1);  
+  h9->SetLineWidth(2);
+  h9->SetTitleSize(0.055,"XY");
+  h9->SetLabelSize(0.055,"XY");
+  h9->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h9->GetXaxis()->SetTitle("#phi, rad");
+  h9->SetAxisRange(0.3,1.5,"Y");
   h9->Draw();
-  c4->Update();
-  h10->SetMarkerColor(2);
-  h10->SetMarkerStyle(2);
-  h10->SetLineColor(kRed);
+
+  h10->SetMarkerColor(kRed+1);
+  h10->SetMarkerStyle(21);
+  h10->SetLineColor(kRed+1);
   norm=h10->GetMaximum();
   h10->Scale(1.0/norm);
 //h10->SetStats();
   h10->Draw("same");
-  c4->Update();
-   leg4 = new TLegend(0.55,0.80,0.9,0.9);
-   leg4->AddEntry(h9,"Signal","f");
-   leg4->AddEntry(h10,"Background","f");
+
+   leg4 = new TLegend(0.55,0.65,0.89,0.89);
+   leg4->AddEntry(h9,"Se#tilde{n}al","l");
+   leg4->AddEntry(h10,"Background","l");
    leg4->Draw();
 
   f2->cd();
@@ -180,26 +219,35 @@ float norm;
   h12->SetName("h12");
 
   TCanvas *c5 = new TCanvas("c5","",600,400);
-  c5->cd();
-  h11->SetTitle("MET Eta");
-  h11->SetMarkerColor(1);
-  h11->SetMarkerStyle(2);
+
+  c5->SetBottomMargin(0.2);
+  c5->SetLeftMargin(0.2);
+  
+  h11->SetTitle("MET #eta");
+  h11->SetMarkerColor(kBlue+1);
+  h11->SetMarkerStyle(21);
   norm=h11->GetMaximum();
   h11->Scale(1.0/norm);
 //h11->SetStats();
+  h11->SetLineColor(kBlue+1);  
+  h11->SetLineWidth(2);
+  h11->SetTitleSize(0.055,"XY");
+  h11->SetLabelSize(0.055,"XY");
+  h11->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h11->GetXaxis()->SetTitle("#eta");    
   h11->Draw();
-  c5->Update();
-  h12->SetMarkerColor(2);
-  h12->SetMarkerStyle(2);
-  h12->SetLineColor(kRed);
+
+  h12->SetMarkerColor(kRed+1);
+  h12->SetMarkerStyle(21);
+  h12->SetLineColor(kRed+1);
   norm=h12->GetMaximum();
   h12->Scale(1.0/norm);
 //h12->SetStats();
   h12->Draw("same");
-  c5->Update();
-   leg5 = new TLegend(0.55,0.80,0.9,0.9);
-   leg5->AddEntry(h11,"Signal","f");
-   leg5->AddEntry(h12,"Background","f");
+
+   leg5 = new TLegend(0.55,0.65,0.89,0.89);
+   leg5->AddEntry(h11,"Se#tilde{n}al","l");
+   leg5->AddEntry(h12,"Background","l");
    leg5->Draw();
   f2->cd();
   c5->Write();       //Eta de la energía perdida
@@ -212,26 +260,36 @@ float norm;
   h14->SetName("h14");
 
   TCanvas *c6 = new TCanvas("c6","",600,400);
-  c6->cd();
-  h13->SetTitle("Transverse momentum for S and t particles");
-  h13->SetMarkerColor(1);
-  h13->SetMarkerStyle(2);
+  c6->SetBottomMargin(0.2);
+  c6->SetLeftMargin(0.2);
+
+
+  h13->SetTitle("Momento transversal de las Part#acute{i}culas S y top-antitop");
+  h13->SetMarkerColor(kBlue+1);
+  h13->SetMarkerStyle(21);
   norm=h13->GetMaximum();
   h13->Scale(1.0/norm);
 //h13->SetStats();
+  h13->SetLineColor(kBlue+1);  
+  h13->SetLineWidth(2);
+  h13->SetTitleSize(0.055,"XY");
+  h13->SetLabelSize(0.055,"XY");
+  h13->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h13->GetXaxis()->SetTitle("p_{T}, GeV/c");
+  h13->SetAxisRange(0,500,"X");
   h13->Draw();
-  c6->Update();
-  h14->SetMarkerColor(2);
-  h14->SetMarkerStyle(2);
-  h14->SetLineColor(kRed);
+
+  h14->SetMarkerColor(kRed+1);
+  h14->SetMarkerStyle(21);
+  h14->SetLineColor(kRed+1);
   norm=h14->GetMaximum();
   h14->Scale(1.0/norm);
 //h14->SetStats();
   h14->Draw("same");
-  c6->Update();
-   leg6 = new TLegend(0.55,0.80,0.9,0.9);
-   leg6->AddEntry(h13,"S particles","f");
-   leg6->AddEntry(h14,"t particles","f");
+
+   leg6 = new TLegend(0.55,0.65,0.89,0.89);
+   leg6->AddEntry(h13,"Part#acute{i}culas S","l");
+   leg6->AddEntry(h14,"top-antitop","l");
    leg6->Draw();
   f2->cd();
   c6->Write();      //PT de las S y t
@@ -244,27 +302,37 @@ float norm;
   h16->SetName("h16");
 
   TCanvas *c7 = new TCanvas("c7","",600,400);
-  c7->cd();
-  h15->SetTitle("Phi distribution for S and t particles");
-  h15->SetMarkerColor(1);
-  h15->SetMarkerStyle(2);
+
+  c7->SetBottomMargin(0.2);
+  c7->SetLeftMargin(0.2);
+  
+  h15->SetTitle("#phi de las Part#acute{i}culas S y top-antitop");
+  h15->SetMarkerColor(kBlue+1);
+  h15->SetMarkerStyle(21);
   norm=h15->GetMaximum();
   h15->Scale(1.0/norm);
 //h15->SetStats();
+  h15->SetLineColor(kBlue+1);  
+  h15->SetLineWidth(2);
+  h15->SetTitleSize(0.055,"XY");
+  h15->SetLabelSize(0.055,"XY");
+  h15->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h15->GetXaxis()->SetTitle("#phi, rad");
+  h15->SetAxisRange(0.3,1.5,"Y");
   h15->Draw();
-  c7->Update();
-  h16->SetMarkerColor(2);
-  h16->SetMarkerStyle(2);
-  h16->SetLineColor(kRed);
+
+  h16->SetMarkerColor(kRed+1);
+  h16->SetMarkerStyle(21);
+  h16->SetLineColor(kRed+1);
   norm=h16->GetMaximum();
   h16->Scale(1.0/norm);
 //h16->SetStats();
   h16->Draw("same");
-  c7->Update();
-   leg7 = new TLegend(0.55,0.80,0.9,0.9);
-   leg7->AddEntry(h15,"S particles","f");
-   leg7->AddEntry(h16,"t particles","f");
-   leg7->Draw();
+
+  leg7 = new TLegend(0.55,0.65,0.89,0.89);
+  leg7->AddEntry(h15,"Part#acute{i}culas S","l");
+  leg7->AddEntry(h16,"top-antitop","l");
+  leg7->Draw();
   f2->cd();
   c7->Write();      // Phi de las S y t
 //-------------------------------------------
@@ -276,27 +344,36 @@ float norm;
   h18->SetName("h18");
 
   TCanvas *c8 = new TCanvas("c8","",600,400);
-  c8->cd();
-h17->SetTitle("Eta distribution for S and t particles");
-  h17->SetMarkerColor(1);
-  h17->SetMarkerStyle(2);
+
+  c8->SetBottomMargin(0.2);
+  c8->SetLeftMargin(0.2);
+
+  h17->SetTitle("#eta de las Part#acute{i}culas S y top-antitop");
+  h17->SetMarkerColor(kBlue+1);
+  h17->SetMarkerStyle(21);
   norm=h17->GetMaximum();
   h17->Scale(1.0/norm);
 //h17->SetStats();
+  h17->SetLineColor(kBlue+1);  
+  h17->SetLineWidth(2);
+  h17->SetTitleSize(0.055,"XY");
+  h17->SetLabelSize(0.055,"XY");
+  h17->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h17->GetXaxis()->SetTitle("#eta");    
   h17->Draw();
-  c8->Update();
-  h18->SetMarkerColor(2);
-  h18->SetMarkerStyle(2);
-  h18->SetLineColor(kRed);
+
+  h18->SetMarkerColor(kRed+1);
+  h18->SetMarkerStyle(21);
+  h18->SetLineColor(kRed+1);
   norm=h18->GetMaximum();
   h18->Scale(1.0/norm);
 //h18->SetStats();
   h18->Draw("same");
-  c8->Update();
-   leg8 = new TLegend(0.55,0.80,0.9,0.9);
-   leg8->AddEntry(h17,"S particles","f");
-   leg8->AddEntry(h18,"t particles","f");
-   leg8->Draw();
+
+  leg8 = new TLegend(0.55,0.65,0.89,0.89);
+  leg8->AddEntry(h17,"Part#acute{i}culas S","l");
+  leg8->AddEntry(h18,"top-antitop","l");
+  leg8->Draw();
   f2->cd();
   c8->Write();        // Eta de las S y t
 //---------------------------------------------
@@ -308,27 +385,37 @@ h17->SetTitle("Eta distribution for S and t particles");
   h20->SetName("h20");
 
   TCanvas *c9 = new TCanvas("c9","",600,400);
-  c9->cd();
-h19->SetTitle("Delta Eta");
-  h19->SetMarkerColor(1);
-  h19->SetMarkerStyle(2);
+
+  c9->SetBottomMargin(0.2);
+  c9->SetLeftMargin(0.2);
+
+  h19->SetTitle("#Delta #eta");
+  h19->SetMarkerColor(kBlue+1);
+  h19->SetMarkerStyle(21);
   norm=h19->GetMaximum();
   h19->Scale(1.0/norm);
 //h19->SetStats();
+  h19->SetLineColor(kBlue+1);  
+  h19->SetLineWidth(2);
+  h19->SetTitleSize(0.055,"XY");
+  h19->SetLabelSize(0.055,"XY");
+  h19->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h19->GetXaxis()->SetTitle("#Delta #eta");
+  h19->SetAxisRange(0.3,1.5,"Y");
   h19->Draw();
-  c9->Update();
-  h20->SetMarkerColor(2);
-  h20->SetMarkerStyle(2);
-  h20->SetLineColor(kRed);
+
+  h20->SetMarkerColor(kRed+1);
+  h20->SetMarkerStyle(21);
+  h20->SetLineColor(kRed+1);
   norm=h20->GetMaximum();
   h20->Scale(1.0/norm);
 //h20->SetStats();
   h20->Draw("same");
-  c9->Update();
-   leg9 = new TLegend(0.55,0.80,0.9,0.9);
-   leg9->AddEntry(h19,"S particles","f");
-   leg9->AddEntry(h20,"t particles","f");
-   leg9->Draw();
+
+  leg9 = new TLegend(0.55,0.65,0.89,0.89);
+  leg9->AddEntry(h19,"Part#acute{i}culas S","l");
+  leg9->AddEntry(h20,"top-antitop","l");
+  leg9->Draw();
   f2->cd();
   c9->Write();         // Delta Eta
 //--------------------------------------------------------
@@ -390,7 +477,7 @@ h23->SetTitle("All particles PT");
   h24->Draw("same");
   c11->Update();
    leg11 = new TLegend(0.55,0.80,0.9,0.9);
-   leg11->AddEntry(h23,"Signal","f");
+   leg11->AddEntry(h23,"Se#tilde{n}al","f");
    leg11->AddEntry(h24,"Background","f");
    leg11->Draw();
   f2->cd();
@@ -422,7 +509,7 @@ h25->SetTitle("All particles Eta");
   h26->Draw("same");
   c12->Update();
    leg12 = new TLegend(0.55,0.80,0.9,0.9);
-   leg12->AddEntry(h25,"Signal","f");
+   leg12->AddEntry(h25,"Se#tilde{n}al","f");
    leg12->AddEntry(h26,"Background","f");
    leg12->Draw();
   f2->cd();
@@ -454,7 +541,7 @@ h27->SetTitle("All particles phi");
   h28->Draw("same");
   c13->Update();
    leg13 = new TLegend(0.55,0.80,0.9,0.9);
-   leg13->AddEntry(h27,"Signal","f");
+   leg13->AddEntry(h27,"Se#tilde{n}al","f");
    leg13->AddEntry(h28,"Background","f");
    leg13->Draw();
   f2->cd();
@@ -486,7 +573,7 @@ h29->SetTitle("All particles ID");
   h30->Draw("same");
   c14->Update();
    leg14 = new TLegend(0.55,0.80,0.9,0.9);
-   leg14->AddEntry(h29,"Signal","f");
+   leg14->AddEntry(h29,"Se#tilde{n}al","f");
    leg14->AddEntry(h30,"Background","f");
    leg14->Draw();
   f2->cd();
@@ -534,28 +621,39 @@ TH1F* h33 = (TH1F*) f1->Get("DeltaRMETJet_S");
 
   TH1F* h34 = (TH1F*) f1->Get("DeltaRMETJet_t");
   h34->SetName("h34");
-
+  
 TCanvas *c16 = new TCanvas("c16","",600,400);
   c16->cd();
-h33->SetTitle("Delta R");
-  h33->SetMarkerColor(1);
-  h33->SetMarkerStyle(2);
+
+  c16->SetBottomMargin(0.2);
+  c16->SetLeftMargin(0.2);
+  
+  h33->SetTitle("#Delta R entre la direcci#acute{o}n de la MET y el jet m#acute{a}s energ#acute{e}tico");
+  h33->SetMarkerColor(kBlue+1);
+  h33->SetMarkerStyle(21);
+  h33->SetLineColor(kBlue+1);
+  h33->SetLineWidth(2);
+  h33->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h33->GetXaxis()->SetTitle("#Delta R");
+  h33->SetTitleSize(0.055,"XY");
+  h33->SetLabelSize(0.055,"XY");
+  h33->SetAxisRange(0,7,"X");
   norm=h33->GetMaximum();
   h33->Scale(1.0/norm);
  // h33->SetStats();
   h33->Draw();
   c16->Update();
-  h34->SetMarkerColor(2);
-  h34->SetMarkerStyle(2);
-  h34->SetLineColor(kRed);
+  h34->SetMarkerColor(kRed+1);
+  h34->SetMarkerStyle(21);
+  h34->SetLineColor(kRed+1);
   norm=h34->GetMaximum();
   h34->Scale(1.0/norm);
 //  h34->SetStats();
   h34->Draw("same");
   c16->Update();
    leg16 = new TLegend(0.55,0.80,0.9,0.9);
-   leg16->AddEntry(h33,"Delta R between MET direction and leading jet. Signal","f");
-   leg16->AddEntry(h34,"Delta R between MET direction and leading jet. Background","f");
+   leg16->AddEntry(h33,"Delta R. Se#tilde{n}al","l");
+   leg16->AddEntry(h34,"Delta R. Background","l");
    leg16->Draw();
   f2->cd();
   c16->Write();    //Delta R entre MET y jet
@@ -570,25 +668,36 @@ h33->SetTitle("Delta R");
 
 TCanvas *c17 = new TCanvas("c17","",600,400);
   c17->cd();
-h35->SetTitle("Delta Phi between MET direction and leading jet");
-  h35->SetMarkerColor(1);
-  h35->SetMarkerStyle(2);
+
+
+  c17->SetBottomMargin(0.2);
+  c17->SetLeftMargin(0.2);
+  
+  h35->SetTitle("#Delta #phi entre la direcci#acute{o}n de la MET y el jet m#acute{a}s energ#acute{e}tico");
+  h35->SetMarkerColor(kBlue+1);
+  h35->SetMarkerStyle(21);
+  h35->SetLineColor(kBlue+1);
+  h35->SetLineWidth(2);
+  h35->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h35->GetXaxis()->SetTitle("#Delta #phi");
+  h35->SetTitleSize(0.055,"XY");
+  h35->SetLabelSize(0.055,"XY");  
   norm=h35->GetMaximum();
   h35->Scale(1.0/norm);
 //  h35->SetStats();
   h35->Draw();
   c17->Update();
-  h36->SetMarkerColor(2);
-  h36->SetMarkerStyle(2);
-  h36->SetLineColor(kRed);
+  h36->SetMarkerColor(kRed+1);
+  h36->SetMarkerStyle(21);
+  h36->SetLineColor(kRed+1);
   norm=h36->GetMaximum();
   h36->Scale(1.0/norm);
 //  h36->SetStats();
   h36->Draw("same");
   c17->Update();
    leg17 = new TLegend(0.55,0.80,0.9,0.9);
-   leg17->AddEntry(h33,"Signal","f");
-   leg17->AddEntry(h34,"Background","f");
+   leg17->AddEntry(h35,"Se#tilde{n}al","l");
+   leg17->AddEntry(h36,"Background","l");
    leg17->Draw();
   f2->cd();
   c17->Write();    //Delta Phi entre MET y jet
@@ -603,25 +712,34 @@ TH1F* h37 = (TH1F*) f1->Get("ST_S");
 
 TCanvas *c18 = new TCanvas("c18","",600,400);
   c18->cd();
-h37->SetTitle("ST");
-  h37->SetMarkerColor(1);
-  h37->SetMarkerStyle(2);
+
+  c18->SetBottomMargin(0.2);
+  c18->SetLeftMargin(0.2);
+  
+  h37->SetTitle("ST");
+  h37->SetMarkerColor(kBlue+1);
+  h37->SetMarkerStyle(21);
+  h37->SetLineColor(kBlue+1);
+  h37->SetLineWidth(2);
+  h37->GetYaxis()->SetTitle("#Eventos / Max. #eventos");
+  h37->GetXaxis()->SetTitle("ST");
+  h37->SetAxisRange(0,1150,"X");
   norm=h37->GetMaximum();
   h37->Scale(1.0/norm);
 //  h37->SetStats();
   h37->Draw();
   c18->Update();
-  h38->SetMarkerColor(2);
-  h38->SetMarkerStyle(2);
-  h38->SetLineColor(kRed);
+  h38->SetMarkerColor(kRed+1);
+  h38->SetMarkerStyle(21);
+  h38->SetLineColor(kRed+1);
   norm=h38->GetMaximum();
   h38->Scale(1.0/norm);
 //  h38->SetStats();
   h38->Draw("same");
   c18->Update();
    leg18 = new TLegend(0.55,0.80,0.9,0.9);
-   leg18->AddEntry(h33,"ST Signal","f");
-   leg18->AddEntry(h34,"ST Background","f");
+   leg18->AddEntry(h37,"ST Se#tilde{n}al","l");
+   leg18->AddEntry(h38,"ST Background","l");
    leg18->Draw();
   f2->cd();
   c18->Write();    //Delta R entre MET y jet
